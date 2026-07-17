@@ -14,6 +14,13 @@
 }
 @font-face {
   font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
   src: url("../assets/fonts/jetbrains-mono-800.woff2") format("woff2");
   font-weight: 800;
   font-style: normal;
@@ -263,8 +270,9 @@ body {
 
 .tile__label {
   min-width: 0;
-  color: var(--muted);
+  color: var(--fg);
   font-size: 0.86rem;
+  font-weight: 500;
   letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
