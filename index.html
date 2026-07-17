@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>New Tab</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="frame">
+    <header class="topbar">
+      <span class="topbar__brand">~/newtab</span>
+      <span class="topbar__meta">theme: auto</span>
+    </header>
+
+    <main class="page" hidden>
+      <section class="stack">
+        <h1 class="clock" id="clock" aria-label="Current time">
+          <span class="clock__digits" id="clock-digits">00<span class="clock__colon">:</span>00</span>
+        </h1>
+        <p class="greeting" id="greeting">hello</p>
+        <p class="date" id="date"></p>
+
+        <form class="search" id="search" role="search" autocomplete="off">
+          <span class="search__prompt" aria-hidden="true">&gt;</span>
+          <input
+            class="search__input"
+            id="search-input"
+            type="text"
+            name="q"
+            placeholder="search the web…"
+            aria-label="Search the web"
+            spellcheck="false"
+            autofocus
+          />
+        </form>
+
+        <div class="links-block">
+          <p class="eyebrow">// links</p>
+          <nav class="links" id="links" aria-label="Quick links"></nav>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

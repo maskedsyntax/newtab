@@ -1,0 +1,282 @@
+/* ---------------------------------------------------------------------------
+   New Tab — monospace / grayscale / terminal-doc
+   Pure grayscale: contrast comes from weight and hairline borders, not colour.
+   Light/dark follows the browser theme automatically (prefers-color-scheme);
+   ?theme=dark|light forces a theme for previewing.
+   --------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-800.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Theme tokens --------------------------------------------------------- */
+
+:root {
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Menlo",
+    "Cascadia Code", "Consolas", monospace;
+  --radius: 5px;
+  /* How wide the centered content block gets on large screens. */
+  --content-max: 820px;
+
+  /* Light (default) */
+  --bg: #ffffff;
+  --panel: #ffffff;
+  --fg: #16181d;
+  --muted: #6b7280;
+  --faint: #9ca3af;
+  --border: #e6e6e9;
+  --border-strong: #d3d3d8;
+  --invert-bg: #16181d;
+  --invert-fg: #ffffff;
+}
+
+/* Dark — applied when the browser prefers dark, unless a preview forces light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a0a0b;
+    --panel: #101012;
+    --fg: #f2f2f3;
+    --muted: #8b8f98;
+    --faint: #62666e;
+    --border: #232427;
+    --border-strong: #34353a;
+    --invert-bg: #f2f2f3;
+    --invert-fg: #0a0a0b;
+  }
+}
+
+/* Preview override (?theme=dark) — wins over the media query. */
+:root[data-theme="dark"] {
+  --bg: #0a0a0b;
+  --panel: #101012;
+  --fg: #f2f2f3;
+  --muted: #8b8f98;
+  --faint: #62666e;
+  --border: #232427;
+  --border-strong: #34353a;
+  --invert-bg: #f2f2f3;
+  --invert-fg: #0a0a0b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- Frame (full browser width, no side rules) --------------------------- */
+
+.frame {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.topbar__brand {
+  font-weight: 800;
+  color: var(--fg);
+}
+
+.topbar__meta {
+  color: var(--faint);
+}
+
+.page {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 8vh 1.5rem;
+}
+
+.stack {
+  width: 100%;
+  max-width: var(--content-max);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* --- Clock --------------------------------------------------------------- */
+
+.clock {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(3.75rem, 15vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.clock__colon {
+  color: var(--faint);
+}
+
+/* --- Greeting + date ------------------------------------------------------ */
+
+.greeting {
+  margin: 1rem 0 0;
+  font-weight: 400;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  color: var(--fg);
+}
+
+.date {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* --- Search (terminal prompt) -------------------------------------------- */
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 2.75rem 0 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--panel);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search:focus-within {
+  border-color: var(--fg);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--fg) 12%, transparent);
+}
+
+.search__prompt {
+  color: var(--faint);
+  font-weight: 800;
+  user-select: none;
+}
+
+.search__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  caret-color: var(--fg);
+}
+
+.search__input::placeholder {
+  color: var(--faint);
+}
+
+/* --- Quick links (tag chips) --------------------------------------------- */
+
+.links-block {
+  width: 100%;
+  margin: 2.25rem 0 0;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--faint);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  background: var(--panel);
+  transition: color 0.14s ease, background-color 0.14s ease,
+    border-color 0.14s ease;
+}
+
+.chip:hover {
+  color: var(--invert-fg);
+  background: var(--invert-bg);
+  border-color: var(--invert-bg);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* --- Entrance motion ------------------------------------------------------ */
+
+.stack > * {
+  animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.clock       { animation-delay: 0.02s; }
+.greeting    { animation-delay: 0.08s; }
+.date        { animation-delay: 0.13s; }
+.search      { animation-delay: 0.20s; }
+.links-block { animation-delay: 0.27s; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Reduced motion ------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .stack > * { animation: none; }
+  .search,
+  .chip { transition: none; }
+}
