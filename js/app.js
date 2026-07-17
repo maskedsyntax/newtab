@@ -131,14 +131,55 @@
 
   // --- Quick links ----------------------------------------------------------
 
+  var SVG_NS = "http://www.w3.org/2000/svg";
+
+  // Build an inline <svg> icon coloured with currentColor (so it follows the
+  // tile's text colour and inverts on hover). Path data lives in icons.js.
+  function makeIcon(slug) {
+    var icons = window.NEWTAB_ICONS || {};
+    var paths = icons[slug] || icons._generic || [];
+    var svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "tile__icon");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    paths.forEach(function (d) {
+      var p = document.createElementNS(SVG_NS, "path");
+      p.setAttribute("d", d);
+      p.setAttribute("fill", "currentColor");
+      svg.appendChild(p);
+    });
+    return svg;
+  }
+
   function renderLinks() {
     var frag = document.createDocumentFragment();
-    cfg.links.forEach(function (link) {
-      var a = document.createElement("a");
-      a.className = "chip";
-      a.href = link.url;
-      a.textContent = link.label;
-      frag.appendChild(a);
+    cfg.linkGroups.forEach(function (group) {
+      var section = document.createElement("section");
+      section.className = "link-group";
+
+      var title = document.createElement("p");
+      title.className = "link-group__title";
+      title.textContent = "// " + group.title;
+      section.appendChild(title);
+
+      var grid = document.createElement("div");
+      grid.className = "link-grid";
+      group.links.forEach(function (link) {
+        var a = document.createElement("a");
+        a.className = "tile";
+        a.href = link.url;
+
+        var label = document.createElement("span");
+        label.className = "tile__label";
+        label.textContent = link.label;
+
+        a.appendChild(makeIcon(link.icon));
+        a.appendChild(label);
+        grid.appendChild(a);
+      });
+      section.appendChild(grid);
+      frag.appendChild(section);
     });
     els.links.appendChild(frag);
   }

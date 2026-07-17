@@ -120,9 +120,11 @@ body {
 
 .page {
   flex: 1;
-  display: grid;
-  place-items: center;
-  padding: 8vh 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8vh 1.75rem;
 }
 
 .stack {
@@ -210,15 +212,20 @@ body {
   color: var(--faint);
 }
 
-/* --- Quick links (tag chips) --------------------------------------------- */
+/* --- Quick links (grouped tiles with logos) ------------------------------ */
 
-.links-block {
+.links {
   width: 100%;
-  margin: 2.25rem 0 0;
+  margin: 2.75rem 0 0;
+  display: block;
 }
 
-.eyebrow {
-  margin: 0 0 0.85rem;
+.link-group {
+  margin: 0 0 1.5rem;
+}
+
+.link-group__title {
+  margin: 0 0 0.7rem;
   color: var(--faint);
   font-size: 0.68rem;
   letter-spacing: 0.16em;
@@ -226,33 +233,56 @@ body {
   text-align: left;
 }
 
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
+.link-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.6rem;
 }
 
-.chip {
-  display: inline-block;
-  padding: 0.35rem 0.7rem;
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  padding: 0.7rem 0.85rem;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  color: var(--muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  text-decoration: none;
   background: var(--panel);
+  color: var(--fg);
+  text-decoration: none;
   transition: color 0.14s ease, background-color 0.14s ease,
     border-color 0.14s ease;
 }
 
-.chip:hover {
+.tile__icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+}
+
+.tile__label {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.14s ease;
+}
+
+.tile:hover {
   color: var(--invert-fg);
   background: var(--invert-bg);
   border-color: var(--invert-bg);
 }
 
-.chip:focus-visible {
+.tile:hover .tile__label {
+  color: var(--invert-fg);
+}
+
+.tile:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
 }
@@ -262,11 +292,11 @@ body {
 .stack > * {
   animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.clock       { animation-delay: 0.02s; }
-.greeting    { animation-delay: 0.08s; }
-.date        { animation-delay: 0.13s; }
-.search      { animation-delay: 0.20s; }
-.links-block { animation-delay: 0.27s; }
+.clock    { animation-delay: 0.02s; }
+.greeting { animation-delay: 0.08s; }
+.date     { animation-delay: 0.13s; }
+.search   { animation-delay: 0.20s; }
+.links    { animation-delay: 0.27s; }
 
 @keyframes rise {
   from { opacity: 0; transform: translateY(8px); }
@@ -278,5 +308,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .stack > * { animation: none; }
   .search,
-  .chip { transition: none; }
+  .tile,
+  .tile__label { transition: none; }
 }
