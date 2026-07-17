@@ -6,23 +6,23 @@
    --------------------------------------------------------------------------- */
 
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("../assets/fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-family: "IBM Plex Mono";
+  src: url("../assets/fonts/ibm-plex-mono-400.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("../assets/fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-family: "IBM Plex Mono";
+  src: url("../assets/fonts/ibm-plex-mono-500.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("../assets/fonts/jetbrains-mono-800.woff2") format("woff2");
-  font-weight: 800;
+  font-family: "IBM Plex Mono";
+  src: url("../assets/fonts/ibm-plex-mono-700.woff2") format("woff2");
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -30,7 +30,7 @@
 /* --- Theme tokens --------------------------------------------------------- */
 
 :root {
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Menlo",
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "Menlo",
     "Cascadia Code", "Consolas", monospace;
   --radius: 5px;
   /* How wide the centered content block gets on large screens. */
@@ -117,7 +117,7 @@ body {
 }
 
 .topbar__brand {
-  font-weight: 800;
+  font-weight: 700;
   color: var(--fg);
 }
 
@@ -147,7 +147,7 @@ body {
 
 .clock {
   margin: 0;
-  font-weight: 800;
+  font-weight: 700;
   font-size: clamp(3.75rem, 15vw, 6.5rem);
   line-height: 1;
   letter-spacing: -0.03em;
@@ -198,7 +198,7 @@ body {
 
 .search__prompt {
   color: var(--faint);
-  font-weight: 800;
+  font-weight: 700;
   user-select: none;
 }
 
